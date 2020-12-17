@@ -25,18 +25,6 @@
                       required
                     ></v-text-field>
                   </v-flex>
-                  <v-flex xs12>
-                    <v-text-field
-                      name="email"
-                      label="Enter OTP "
-                      id="email"
-                      v-model="OTP"
-                      type="email"
-                      required
-                      v-if="disable"
-                    ></v-text-field>
-                  </v-flex>
-
                   <v-flex xs12 sm6 class="text-sm-right text-xs-center">
                     <v-btn
                       xs12
