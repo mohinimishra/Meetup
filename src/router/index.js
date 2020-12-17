@@ -46,11 +46,30 @@ const routes = [
     component: () => import('../views/Users/signIn.vue')
   },
   {
+    path: '/forgetpassword',
+    name: 'forget-password',
+    component: () => import('../views/Users/forgetPassword.vue')
+
+  },
+  {
     path: '/signup',
     name: 'signup',
 
     component: () => import('../views/Users/signup.vue')
   },
+  {
+    path: '/confirmOTP',
+    name: 'confirmOTP',
+
+    component: () => import('../views/Users/confirmOTP.vue')
+  },
+  {
+    path: '/newpassword',
+    name: 'new password',
+
+    component: () => import('../views/Users/newPassword.vue')
+  },
+
 ]
 const router = new VueRouter({
   mode: 'history',

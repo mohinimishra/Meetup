@@ -7,12 +7,16 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 // import * as firebase from 'firebase'
 import { firebase } from '@firebase/app'
 import Alert from './views/sharedComp/alert.vue'
+import Sucess from './views/sharedComp/sucess.vue'
+
 require('firebase/auth')
 
 
 
 Vue.config.productionTip = false
 Vue.component('app-alert', Alert)
+Vue.component('app-sucess', Sucess)
+
 
 new Vue({
   router,

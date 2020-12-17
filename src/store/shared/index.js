@@ -7,11 +7,15 @@ Vue.use(Vuex)
 
 export default {
     state: {
-        error: null
+        error: null,
+        sucess: null
     },
     mutations: {
         setError(state, payload) {
             state.error = payload
+        },
+        setSucess(state, payload) {
+            state.sucess = payload
         },
         clearError(state) {
             state.error = null
@@ -26,6 +30,9 @@ export default {
     getters: {
         error(state) {
             return state.error
+        },
+        sucess(state) {
+            return state.sucess
         },
 
     }

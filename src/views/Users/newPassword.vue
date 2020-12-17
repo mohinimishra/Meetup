@@ -5,20 +5,20 @@
         <app-alert
           @dismiseed="onDismiss"
           v-bind:text="error.message"
-        ></app-alert
-      ></v-flex>
+        ></app-alert>
+      </v-flex>
     </v-layout>
     <v-layout row class="mt-5">
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-card-text>
             <v-container>
-              <form v-on:submit.prevent="onSignIn">
+              <form v-on:submit.prevent="onSave">
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
                       name="email"
-                      label="Mail"
+                      label="Enter Email"
                       id="email"
                       v-model="email"
                       type="email"
@@ -29,8 +29,8 @@
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
-                      name="password"
-                      label="Password"
+                      name="email"
+                      label="Enter Password"
                       id="password"
                       v-model="password"
                       type="password"
@@ -38,19 +38,24 @@
                     ></v-text-field>
                   </v-flex>
                 </v-layout>
-                <v-layout row class="mb-5">
+
+                <v-layout row>
                   <v-flex xs12>
-                    <a href>
-                      <router-link to="/forgetpassword"
-                        >Foeget Password</router-link
-                      >
-                    </a>
+                    <v-text-field
+                      name="confirm password"
+                      label="ConfirmPassword"
+                      id="Cpassword"
+                      v-model="confirmPassword"
+                      type="password"
+                      required
+                      v-bind:rules="[comparePassword]"
+                    ></v-text-field>
                   </v-flex>
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn text type="submit" class="blue lighten-5">
-                      Sign In
+                      Save
                     </v-btn>
                   </v-flex>
                 </v-layout>
@@ -70,34 +75,28 @@ export default {
     return {
       email: "",
       password: "",
+      dialog: false,
+      confirmPassword: "",
     };
   },
-  computed: {
-    user() {
-      return this.$store.getters.validateUser;
-    },
-    error() {
-      return this.$store.getters.error;
-    },
-  },
-  watch: {
-    user(value) {
-      if (value !== null && value !== undefined) {
-        this.$router.push("/");
-      }
-    },
-  },
   methods: {
-    onSignIn() {
-      this.$store.dispatch("signInUser", {
+    onSave() {
+      this.dialog = false;
+      this.$store.dispatch("updatePass", {
         email: this.email,
         password: this.password,
       });
     },
-    onDismiss() {
-      this.$store.dispatch("clearError");
+  },
+  computed: {
+    comparePassword() {
+      return this.password !== this.confirmPassword
+        ? "password do not match!"
+        : "";
     },
-    forgetPassword() {},
+    error() {
+      return this.$store.getters.error;
+    },
   },
 };
 </script>

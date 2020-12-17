@@ -3,13 +3,19 @@ import Vuex from 'vuex'
 import { firebase } from '@firebase/app'
 require('firebase/auth')
 require('firebase/database');
+require('firebase/firebase-auth')
+// import emailjs from 'emailjs-com'
+
+
+
 
 Vue.use(Vuex)
 
 export default {
     state: {
         user: null,
-        error: null
+        error: null,
+        sucess: null
     },
     mutations: {
         registerUserForMeetup(state, payload) {
@@ -67,6 +73,37 @@ export default {
                 commit('setError', err)
             })
         },
+        // updatePass(payload) {
+        //     const updateObj = {}
+
+        //     if (payload.password) {
+        //         updateObj.password = payload.password
+        //     }
+        //     let user = firebase.auth().getInstance().getCurrentUser()
+        //     user.updatePassword(updateObj)
+        //     // firebase.default.auth().ref('/users/').update(updateObj)
+        //     //     .then((data) => {
+        //     //         commit('setUser', payload)
+        //     //         console.log(payload)
+        //     //         console.log(data)
+
+        //     //     })
+        //     //     .catch((err) => {
+        //     //         console.log(err)
+        //     //     })
+        // },
+        passReset({ commit }, payload) {
+            firebase.auth().sendPasswordResetEmail(payload.email)
+                .then((data) => {
+                    console.log(data, "sucessfull reset");
+                })
+                .catch(err => {
+                    commit('setError', err)
+                    console.log(err)
+                })
+
+        },
+
         autoSignin({ commit }, payload) {
             commit('setUser', { id: payload.uid, registerId: [], fbKeys: {} })
         },
@@ -105,7 +142,46 @@ export default {
                 commit('setError', err)
                 console.log(err)
             })
-        }
+        },
+        // verifyOTP({ commit }, payload) {
+
+        //     firebase.default.auth().fetchSignInMethodsForEmail(payload.email).then((data) => {
+        //         if (data.length > 0) {
+        //             let RandomNumber = parseInt(Math.random() * (9999 - 1000) + 1000)
+        //             console.log(RandomNumber)
+        //             localStorage.setItem(payload.email, RandomNumber);
+
+        //             emailjs.send('service_ruxgjce', 'template_q4duchq',
+        //                 {
+        //                     message: `Your otp is ${RandomNumber}`,
+        //                     email_to: payload.email
+        //                 }, 'user_FA0LIMJPCS8ymSLUgovSu').then((response) => {
+        //                     console.log(response.text, response.status)
+
+        //                     commit('setSucess', { msg: 'OTP sent sucessfully' })
+
+
+        //                 }).catch(err => console.log(err))
+
+        //         } else {
+        //             commit('setError', new Error('Email is not valid or not register with us'))
+
+        //         }
+        //     }).catch(err => {
+        //         commit('setError', err)
+        //     })
+
+        // },
+        // confirmOTP({ commit }, payload) {
+        //     var data = parseInt(localStorage.getItem(payload.email))
+        //     if (data == payload.OTP) {
+        //         console.log("Sucess")
+        //     } else {
+        //         console.log("error")
+        //         commit('setError', new Error('OTP is not valid.'))
+        //     }
+        // }
+
     },
     getters: {
         validateUser(state) {
